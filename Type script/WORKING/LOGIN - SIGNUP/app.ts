@@ -1,3 +1,5 @@
-import str from "./config";
+import app, {auth} from "./config.js";
 
-console.log(str);
+console.log("Firebase Initialized:", app);
+console.log("Auth Instance:", auth);
+console.log("EVERY THING IS FINE");
