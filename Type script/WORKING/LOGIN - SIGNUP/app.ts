@@ -1,6 +1,7 @@
 // import { createUserWithEmailAndPassword , signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { createUserWithEmailAndPassword , signInWithEmailAndPassword } from "firebase/auth";
 import {auth , app} from "./config.js";
+import Swal from 'sweetalert2';
 
 let createAcc = document.getElementById("showSign") as HTMLButtonElement
 let logAcc = document.getElementById("showLog") as HTMLButtonElement
@@ -33,37 +34,63 @@ loginSubmit.addEventListener("click", (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, inploginEmail.value, inploginPassword.value)
         .then((userCredential) => {
-        // Signed in
+            // Log in
         const user = userCredential.user;
         console.log(user);
         inploginEmail.value = "";
         inploginPassword.value = "";
-        prompt("LOGIN-SUCCESSFULLY")
+        Swal.fire({
+            title: 'Success!',
+            text: 'You have successfully logged in.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: "#27ae60"
+          });
+          
     })
         .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
-        prompt("INVALID EMAIL OR PASSWORD")
-    });
+        Swal.fire({
+            title: 'Error!',
+            text: 'Invalid email or password.',
+            icon: 'error',
+            confirmButtonText: 'Try Again',
+            confirmButtonColor: "#27ae60"
+          });
+        })
 });
 
 signupSubmit.addEventListener("click", (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, inpSignupEmail.value, inpSignupPassword.value)
         .then((userCredential) => {
-        // Signed in
+            // Signed in
         const user = userCredential.user;
         console.log(user);
         inpSignupEmail.value = "";
         inpSignupPassword.value = "";
-        prompt("SIGN-UP SUCCESSFULLY")
-        loginForm.className = ""
-        singupForm.className= "hidden"
+        Swal.fire({
+            title: 'Success!',
+            text: 'You have successfully Sign in.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: "#27ae60"
+          });
+        loginForm.className = "";
+        singupForm.className = "hidden";
     })
         .catch((error) => {
         const errorCode = error.code;
         console.log(errorCode);
-        prompt("EMAIL ALREADY EXIST")
-    });
+        const errorMessage = error.message;
+        Swal.fire({
+            title: 'Error!',
+            text: errorMessage,
+            icon: 'error',  
+            confirmButtonText: 'Try Again',
+            confirmButtonColor: "#27ae60"  
+        });
+        })
 });
